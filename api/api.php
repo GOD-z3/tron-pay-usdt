@@ -22,6 +22,7 @@ class Troner
         $this->url = $this->api_url_gerAddress;
         return $this->post($data);
     }
+    
 
     public function checkrecharge(array $data)
     {
