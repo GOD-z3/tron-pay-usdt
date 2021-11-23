@@ -24,15 +24,17 @@
 ## 接口调用完整示例:
 
 ```
-// 获取地址
-$api = new Troner('你的用户名','你的token','要使用的币种');
-// **案例** $api = new Troner('test','token','usdt');
+// 初始化数据
+$api = new Troner('你的用户名','你的token','要使用的币种'); // **案例** $api = new Troner('test','token','usdt');
+// 构建参数
 $data = [
     'order' => 'yourorder',
     'amount' => '1',
     'call_back' => 'call_back_url'
 ];
+// 调用接口
 $result = $api->newAddress($data);
+// 检验返回数据并处理
 if($result['status'] != 'success'){
     echo '接口请求出错或接口出错';
 }
@@ -76,7 +78,7 @@ $result = $api->newAddress($data);
 
  参数名  | 必选项  | 解释
  ---- | ----- | ------  
- status  | Y | 上面有解释 
+ status  | Y | [on status](https://github.com/GOD-z3/tron-pay-usdt#%E8%BF%94%E5%9B%9E%E7%8A%B6%E6%80%81) 
  api_order  | Y | 接口返回的订单号(用户其他功能，建议记录) 
  order  | Y | 传入的订单  
  base58  | Y | 充值地址  
@@ -98,7 +100,7 @@ $result = $api->newAddress($data);
  sign  | Y | 数据签名
 
 ## newAddres 回调返回:
-**回调状态接口会记录，所以回调返回必须安装接口要求格式**
+**回调状态接口会记录，所以回调返回必须按指定格式返回**
  ```
  // json 格式
  {"status":"success"}
@@ -135,7 +137,7 @@ $result = $api->newAddress($data);
 
  参数名  | 必选项  | 解释
  ---- | ----- | ------  
- status  | Y | 上面有解释 
+ status  | Y | [on status](https://github.com/GOD-z3/tron-pay-usdt#%E8%BF%94%E5%9B%9E%E7%8A%B6%E6%80%81) 
  api_order  | Y | 接口返回的订单号(用户其他功能，建议记录) 
  order  | Y | 传入的订单  
  base58  | Y | 充值地址  
