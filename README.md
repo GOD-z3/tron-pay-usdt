@@ -2,10 +2,10 @@
 
 ## 功能列表:
 
-```
-newAddres             获取充值地址
-checkrecharge         主动获取某一个订单是否充值到账
-```
+ 方法名  | 功能  | 跳转详情
+ ---- | ----- | ------  
+ newAddres  | 获取充值地址 | [on newAddres](https://github.com/GOD-z3/tron-pay-usdt#newaddres)
+ checkrecharge  | 主动获取某一个订单是否充值到账 | [on checkrecharge](https://github.com/GOD-z3/tron-pay-usdt#checkrecharge)  
 
 ## 返回状态:
 
@@ -14,6 +14,11 @@ checkrecharge         主动获取某一个订单是否充值到账
  status  | success | 成功
  status  | warning | 传入数据不合法或错误
  status  | error | api 接口出错联系管理员
+
+## 支持的币种:
+
+ 1.usdt
+ 2.trx
 
 
 ## 接口调用完整示例:
