@@ -15,6 +15,7 @@ class Troner
         $api_url = 'https://pay.anonymousalliance.com/api/'.$this->coin_type.'/';
         $this->api_url_gerAddress    = $api_url . 'getaddress';
         $this->api_url_checkrecharge    = $api_url . 'checkrecharge';
+        $this->api_url_withdraw    = $api_url . 'withdraw';
     }
 
     public function newAddress(array $data)
@@ -26,6 +27,11 @@ class Troner
     public function checkrecharge(array $data)
     {
         $this->url = $this->api_url_checkrecharge;
+        return $this->post($data);
+    }
+
+    public function withdraw(array $data){
+        $this->url = $this->api_url_withdraw;
         return $this->post($data);
     }
 

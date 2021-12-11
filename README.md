@@ -6,7 +6,8 @@
  方法名  | 功能  | 跳转详情
  ---- | ----- | ------  
  newAddres  | 获取充值地址 | [on newAddres](https://github.com/GOD-z3/tron-pay-usdt#newaddres)
- checkrecharge  | 主动获取某一个订单是否充值到账 | [on checkrecharge](https://github.com/GOD-z3/tron-pay-usdt#checkrecharge)  
+ checkrecharge  | 主动获取某一个订单是否充值到账 | [on checkrecharge](https://github.com/GOD-z3/tron-pay-usdt#checkrecharge)
+ withdraw  | 提现(一对一) | [on withdraw](https://github.com/GOD-z3/tron-pay-usdt#withdraw)  
 
 ## 返回状态:
 
@@ -130,7 +131,7 @@ $result = $api->newAddress($data);
 
  参数名  | 必选项  | 解释
  ---- | ----- | ------  
- api_order : 接口订单号
+ api_order | Y | 接口订单号
  name  | Y | 用户名(sdk内部处理)
  sign  | Y | 数据签名(sdk内部处理)
 
@@ -145,4 +146,45 @@ $result = $api->newAddress($data);
  amount  | Y | 传入的金额  
  coin_type  | Y | 币种  
  recharge  | Y | 充值状态 true:到账 false:未到账  
+ sign  | Y | 数据签名
+
+
+  # checkrecharge:
+
+   ## 示例:
+```
+// 获取地址
+$api = new Troner('你的用户名','你的token','要使用的币种');
+// **案例** $api = new Troner('test','token','usdt');
+$data = [
+    'order' => 'your_order',
+    'to_address' => 'your_to_address',
+    'amount' => '1'
+];
+$result = $api->withdraw($data);
+```
+
+## 请求与返回参数:
+
+#### 请求参数:
+
+ 参数名  | 必选项  | 解释
+ ---- | ----- | ------  
+ order | Y | 订单号
+ to_address  | Y | 要提现的地址
+ amount  | Y | 要提现的金额
+
+#### 返回参数:
+
+ 参数名  | 必选项  | 解释
+ ---- | ----- | ------  
+ status  | Y | [on status](https://github.com/GOD-z3/tron-pay-usdt#%E8%BF%94%E5%9B%9E%E7%8A%B6%E6%80%81) 
+ api_order  | Y | 接口返回的订单号(用户其他功能，建议记录) 
+ order  | Y | 传入的订单  
+ tx_id  | Y | 交易TXID  
+ amount  | Y | 转账金额  
+ owner  | Y | 转账地址  
+ to  | Y | 收款地址  
+ withdraw | Y | 提现是否成功(true or false)
+ coin_type  | Y | 币种  
  sign  | Y | 数据签名
