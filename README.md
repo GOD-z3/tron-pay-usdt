@@ -1,5 +1,5 @@
 # 说明(必看):
-接口 URL : [跳转](https://pay.anonymousalliance.com)
+接口申请 URL : [跳转](https://dpay.anonymousalliance.com)
 
 ## 功能列表:
 
