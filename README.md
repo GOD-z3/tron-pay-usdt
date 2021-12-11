@@ -149,7 +149,7 @@ $result = $api->newAddress($data);
  sign  | Y | 数据签名
 
 
-  # checkrecharge:
+  # withdraw:
 
    ## 示例:
 ```
