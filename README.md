@@ -186,5 +186,6 @@ $result = $api->withdraw($data);
  owner  | Y | 转账地址  
  to  | Y | 收款地址  
  withdraw | Y | 提现是否成功(true or false)
- coin_type  | Y | 币种  
+ coin_type  | Y | 币种
+ commission_amount  | N | 手续费(没有这个字段则表示0)
  sign  | Y | 数据签名
