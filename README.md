@@ -96,7 +96,7 @@ $result = $api->newAddress($data);
  data['address']  | Y | 充值接收地址  
  sign  | Y | 数据签名
 
-## newAddres 到账回调:
+## TRX USDT 到账回调:
 
  参数名  | 必选项  | 解释
  ---- | ----- | ------  
@@ -111,12 +111,20 @@ $result = $api->newAddress($data);
  data['coin_type]  | Y | 本次充值的币种(TRX,USDT)
  sign  | Y | 数据签名
 
-## newAddres 到账回调返回:
-**回调状态接口会记录，所以回调返回必须按指定格式返回**
- ```
- // json 格式
- {"status":"success"}
- ```
+## USD 到账回调:
+**USD 回调跟 TRX USDT 不同,需要单独处理,api_order是唯一值可以用于判断是否已处理**
+ 参数名  | 必选项  | 解释
+ ---- | ----- | ------  
+ id  | Y | 商户id
+ data[]  | Y | 返回数据的数组
+ data['api_order]  | Y | 本站创建的 api_order 是唯一值
+ data['order]  | Y | 为null
+ data['address]  | Y | 打款用户的TelegramID
+ data['amount]  | Y | 本次收款金额 
+ data['txid]  | Y | 本站创建的 api_order 是唯一值
+ data['datas]  | Y | 本站创建的 api_order 是唯一值
+ data['coin_type]  | Y | USD
+ sign  | Y | 数据签名
 
 
 
