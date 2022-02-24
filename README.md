@@ -96,7 +96,7 @@ $result = $api->newAddress($data);
  data['address']  | Y | 充值接收地址  
  sign  | Y | 数据签名
 
-## 充值回调:
+## newAddres 到账回调:
 
  参数名  | 必选项  | 解释
  ---- | ----- | ------  
@@ -111,7 +111,7 @@ $result = $api->newAddress($data);
  data['coin_type]  | Y | 本次充值的币种(TRX,USDT)
  sign  | Y | 数据签名
 
-## 充值回调返回:
+## newAddres 到账回调返回:
 **回调状态接口会记录，所以回调返回必须按指定格式返回**
  ```
  // json 格式
