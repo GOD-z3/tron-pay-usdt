@@ -1,40 +1,147 @@
 <?php
 class Troner
 {
-    protected $name;
+    protected $id;
     protected $token;
     protected $api_url_gerAddress;
 
 
-    public function __construct($name, $token, $type)
+    public function __construct($id, $token)
     {
-        $this->name = $name;
+        $this->id = $id;
         $this->token = $token;
-        $this->coin_type = $type;
 
-        $api_url = 'https://pay.anonymousalliance.com/api/'.$this->coin_type.'/';
-        $this->api_url_gerAddress    = $api_url . 'getaddress';
-        $this->api_url_checkrecharge    = $api_url . 'checkrecharge';
-        $this->api_url_withdraw    = $api_url . 'withdraw';
+        $api_url = 'https://tronbot.network/shop/';
+        $this->api_url_gerAddress    = $api_url . 'newAddress';
+        $this->api_url_usdtWithdraw    = $api_url . 'withdraw/usdt';
+        $this->api_url_trxWithdraw    = $api_url . 'withdraw/trx';
+        $this->api_url_usdWithdraw    = $api_url . 'withdraw/usd';
     }
 
+    /**
+     * 获取充值地址
+     * 请求参数：
+     *      order : 订单号(唯一)
+     *      amount : 充值数
+     *      call_back : 回调地址(为空则不会调)
+     * 
+     * 返回：
+     *      api_order : api接口生成的订单
+     *      order : 传入的订单
+     *      base58 : 充值接收地址
+     *      amount : 传入的金额
+     *      coin_type : 币种
+     *      call_back : 传入的回调链接
+     *      sign : 签名
+     */
     public function newAddress(array $data)
     {
         $this->url = $this->api_url_gerAddress;
         return $this->post($data);
     }
 
-    public function checkrecharge(array $data)
+    /**
+     * usdt 提现
+     * 请求参数：
+     *      id : 商户id
+     *      address : 合法的 tron 地址, 地址不合法返回 10004
+     *      amount : 金额
+     *      order : 可选参数
+     *      sign : 签名
+     * 返回：
+     *      status : success 请求成功; error 请求异常; warning 请求参数不对
+     *      id : 商户id
+     *      sign : 签名
+     *      code : 请求状态码
+     *      data : {
+     *              address : 用户传入的 address
+     *              amount : 用户传入的金额
+     *              current_usdt : 用户当前剩余的 usdt
+     *              order : 用户传入的 order
+     *              api_order : api订单号
+     *              coin_type : 提现的币种
+     *              fee : 手续费
+     *          }
+     */
+    public function usdtWithdraw(array $data)
     {
-        $this->url = $this->api_url_checkrecharge;
+        $this->url = $this->api_url_usdtWithdraw;
         return $this->post($data);
     }
 
-    public function withdraw(array $data){
-        $this->url = $this->api_url_withdraw;
+    /**
+     * trx 提现
+     * 请求参数：
+     *      id : 商户id
+     *      address : 合法的 tron 地址, 地址不合法返回 10004
+     *      amount : 金额
+     *      order : 可选参数
+     *      sign : 签名
+     * 返回：
+     *      status : success 请求成功; error 请求异常; warning 请求参数不对
+     *      id : 商户id
+     *      sign : 签名
+     *      code : 请求状态码
+     *      data : {
+     *              address : 用户传入的 address
+     *              amount : 用户传入的金额
+     *              current_trx : 用户当前剩余的 trx
+     *              order : 用户传入的 order
+     *              api_order : api订单号
+     *              coin_type : 提现的币种
+     *              fee : 手续费
+     *          }
+     */
+    public function trxWithdraw(array $data)
+    {
+        $this->url = $this->api_url_trxWithdraw;
         return $this->post($data);
     }
 
+    /**
+     * usd 提现
+     * 请求参数：
+     *      id : 商户id
+     *      telegramID : 要给哪个用户提现 如果用户不存在返回 10002
+     *      amount : 金额
+     *      order : 可选参数
+     *      sign : 签名
+     * 返回：
+     *      status : success 请求成功; error 请求异常; warning 请求参数不对
+     *      id : 商户id
+     *      sign : 签名
+     *      code : 请求状态码
+     *      data : {
+     *              telegramID : 用户传入的telegramID
+     *              amount : 用户传入的金额
+     *              current_usd : 用户当前剩余的 usd
+     *              order : 用户传入的order
+     *              api_order : api订单号
+     *              coin_type : 提现的币种
+     *              fee : 手续费
+     *          }
+     */
+    public function usdWithdraw(array $data)
+    {
+        $this->url = $this->api_url_usdWithdraw;
+        return $this->post($data);
+    }
+
+    /*
+     *  异步接受通知：
+     *      api_order : api接口生成的订单
+     *      order : 订单
+     *      base58 : 充值接收地址
+     *      amount : 金额
+     *      coin_type : 币种
+     *      recharge : 充值状态 true:充值成功 false:充值失败
+     *      sign : 签名
+     * 
+     *  按json格式返回：
+     *      [
+     *          'status' => 'success',
+     *      ]
+    */
     public function notify()
     {
         $data = $_POST;
@@ -48,7 +155,7 @@ class Troner
     // 数据签名
     public function sign(array $data)
     {
-        $data['name'] = $this->name;
+        $data['id'] = $this->id;
         $data = array_filter($data);
         ksort($data);
         $data['sign'] = strtoupper(md5(urldecode(http_build_query($data) . '&token=' . $this->token)));
@@ -70,6 +177,7 @@ class Troner
     public function post($data)
     {
         $data   = $this->sign($data);
+        // echo $this->url;
         // exit(json_encode($data));
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_TIMEOUT, 10);
@@ -87,4 +195,3 @@ class Troner
         return json_decode($data, true);
     }
 }
-

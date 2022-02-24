@@ -1,13 +1,14 @@
 # 说明(必看):
-接口申请 URL : [跳转](https://dpay.anonymousalliance.com)
+接口申请 URL : [跳转](https://t.me/Tigerbuhu)
 
 ## 功能列表:
 
  方法名  | 功能  | 跳转详情
  ---- | ----- | ------  
  newAddres  | 获取充值地址 | [on newAddres](https://github.com/GOD-z3/tron-pay-usdt#newaddres)
- checkrecharge  | 主动获取某一个订单是否充值到账 | [on checkrecharge](https://github.com/GOD-z3/tron-pay-usdt#checkrecharge)
- withdraw  | 提现(一对一) | [on withdraw](https://github.com/GOD-z3/tron-pay-usdt#withdraw)  
+ usdtWithdraw  | USDT 提现 | [on usdtWithdraw](https://github.com/GOD-z3/tron-pay-usdt#usdtWithdraw)
+ trxWithdraw  | TRX 提现 | [on trxWithdraw](https://github.com/GOD-z3/tron-pay-usdt#trxWithdraw)  
+ usdWithdraw  | USD 提现 | [on usdWithdraw](https://github.com/GOD-z3/tron-pay-usdt#usdWithdraw)  
 
 ## 返回状态:
 
@@ -15,31 +16,39 @@
  ---- | ----- | ------  
  status  | success | 成功
  status  | warning | 传入数据不合法或错误
- status  | error | api 接口出错联系管理员
+ status  | error | 系统错误，根据code(状态码)查看原因
 
-## 支持的币种:
+## 状态码说明:
 
- 1. usdt
- 2. trx
+ 状态码  | 说明  | 是否需要联系管理员
+ ---- | ----- | ------  
+ 10000  | 请求成功 | 否
+ 10001  | 系统错误，请重新请求 | 否
+ 10002  | usd提现，没有找到对应的用户(telegramID 没有创建钱包) | 否
+ 10003  | u提现,余额不足 | 否
+ 10004  | 提现,tron地址不合法 | 否
+ 11111  | 危险系统错误 | 是
 
 
 ## 接口调用完整示例:
 
 ```
 // 初始化数据
-$api = new Troner('你的用户名','你的token','要使用的币种'); // **案例** $api = new Troner('test','token','usdt');
+$api = new Troner('商户ID','商户TOKEN'); // **案例** $api = new Troner('20000','token');
+
 // 构建参数
 $data = [
     'order' => 'yourorder',
-    'amount' => '1',
-    'call_back' => 'call_back_url'
 ];
+
 // 调用接口
 $result = $api->newAddress($data);
-// 检验返回数据并处理
-if($result['status'] != 'success'){
+
+// 检查是否返回成功，如果没有返回成功则做出相应处理
+if(!isset($result['status']) && $result['status'] != 'success'){
     echo '接口请求出错或接口出错';
 }
+
 // 验证签名 
 if($api->checkSign($result)){
     // 成功的逻辑代码
@@ -54,13 +63,13 @@ if($api->checkSign($result)){
 ## 示例:
 ```
 // 获取地址
-$api = new Troner('你的用户名','你的token','要使用的币种');
-// **案例** $api = new Troner('test','token','usdt');
+$api = new Troner('商户ID','商户TOKEN');
+// **案例** $api = new Troner('20000','token');
+
 $data = [
     'order' => 'yourorder',
-    'amount' => '1',
-    'call_back' => 'call_back_url'
 ];
+
 $result = $api->newAddress($data);
 ```
 
@@ -70,10 +79,8 @@ $result = $api->newAddress($data);
 
  参数名  | 必选项  | 解释
  ---- | ----- | ------  
- order  | Y | 你订单号(最好唯一) 
- amount  | Y | 充值的金额  
- call_back  | Y | 回调链接(必须可访问)  
- name  | Y | 用户名(sdk内部处理)
+ order  | N | 订单号(最好唯一) 
+ id  | Y | 商户ID(sdk内部处理)
  sign  | Y | 数据签名(sdk内部处理)
 
 #### 返回参数:
@@ -81,27 +88,30 @@ $result = $api->newAddress($data);
  参数名  | 必选项  | 解释
  ---- | ----- | ------  
  status  | Y | [on status](https://github.com/GOD-z3/tron-pay-usdt#%E8%BF%94%E5%9B%9E%E7%8A%B6%E6%80%81) 
- api_order  | Y | 接口返回的订单号(用户其他功能，建议记录) 
- order  | Y | 传入的订单  
- base58  | Y | 充值地址  
- amount  | Y | 传入的金额  
- coin_type  | Y | 币种  
- call_back  | Y | 传入的回调链接  
+ id  | Y | 商户ID 
+ code  | Y | 请求状态码  
+ data[]  | Y | 返回数据的数组
+ data['api_order']  | Y | 接口返回的订单号(用户其他功能，建议记录) 
+ data['order']  | Y | 用户传入的订单号
+ data['address']  | Y | 充值接收地址  
  sign  | Y | 数据签名
 
-## newAddres 回调:
+## 充值回调:
 
  参数名  | 必选项  | 解释
  ---- | ----- | ------  
- api_order  | Y | 接口返回的订单号(用户其他功能，建议记录) 
- order  | Y | 传入的订单  
- base58  | Y | 充值地址  
- amount  | Y | 传入的金额  
- coin_type  | Y | 币种  
- recharge  | Y | 充值状态 true:到账 false:未到账(没有BUG，未到账不会触发回调)
+ id  | Y | 商户id
+ data[]  | Y | 返回数据的数组
+ data['api_order]  | Y | 创建地址时生成的api_order
+ data['order]  | Y | 创建地址是用户传入的order
+ data['address]  | Y | 收款地址
+ data['amount]  | Y | 本次收款金额 
+ data['txid]  | Y | 本次交易txid(唯一)
+ data['datas]  | Y | 本地交易详情
+ data['coin_type]  | Y | 本次充值的币种(TRX,USDT)
  sign  | Y | 数据签名
 
-## newAddres 回调返回:
+## 充值回调返回:
 **回调状态接口会记录，所以回调返回必须按指定格式返回**
  ```
  // json 格式
@@ -110,19 +120,19 @@ $result = $api->newAddress($data);
 
 
 
- # checkrecharge:
+ # usdtWithdraw:
 
  ## 示例:
 ```
-// 获取地址
-$api = new Troner('你的用户名','你的token','要使用的币种');
-// **案例** $api = new Troner('test','token','usdt');
+// usdt 提现
+$api = new Troner('商户ID','商户TOKEN');
+// **案例** $api = new Troner('20000','token');
 $data = [
-    'order' => 'yourorder',
+    'address' => '合法的 tron 地址',
     'amount' => '1',
-    'call_back' => 'call_back_url'
+    'order' => '可选'
 ];
-$result = $api->newAddress($data);
+$result = $api->usdtWithdraw($data);
 ```
 
 ## 请求与返回参数:
@@ -131,8 +141,10 @@ $result = $api->newAddress($data);
 
  参数名  | 必选项  | 解释
  ---- | ----- | ------  
- api_order | Y | 接口订单号
- name  | Y | 用户名(sdk内部处理)
+ address | Y | 提现地址
+ amount | Y | 提现金额
+ order | N | 订单号
+ id  | Y | 商户ID(sdk内部处理)
  sign  | Y | 数据签名(sdk内部处理)
 
 #### 返回参数:
@@ -140,28 +152,32 @@ $result = $api->newAddress($data);
  参数名  | 必选项  | 解释
  ---- | ----- | ------  
  status  | Y | [on status](https://github.com/GOD-z3/tron-pay-usdt#%E8%BF%94%E5%9B%9E%E7%8A%B6%E6%80%81) 
- api_order  | Y | 接口返回的订单号(用户其他功能，建议记录) 
- order  | Y | 传入的订单  
- base58  | Y | 充值地址  
- amount  | Y | 传入的金额  
- coin_type  | Y | 币种  
- recharge  | Y | 充值状态 true:到账 false:未到账  
+ id  | Y | 商户ID 
+ code  | Y | 请求状态码  
+ data[]  | Y | 返回数据的数组
+ data['api_order']  | Y | 接口返回的订单号(用户其他功能，建议记录) 
+ data['order']  | Y | 用户传入的订单号
+ data['address']  | Y | 提现地址  
+ data['amount']  | Y | 提现金额  
+ data['current_usdt']  | Y | USDT 剩余余额  
+ data['coin_type']  | Y | 币种(USDT)  
+ data['fee']  | Y | 手续费  
  sign  | Y | 数据签名
 
 
-  # withdraw:
+ # trxWithdraw:
 
-   ## 示例:
+ ## 示例:
 ```
-// 获取地址
-$api = new Troner('你的用户名','你的token','要使用的币种');
-// **案例** $api = new Troner('test','token','usdt');
+// usdt 提现
+$api = new Troner('商户ID','商户TOKEN');
+// **案例** $api = new Troner('20000','token');
 $data = [
-    'order' => 'your_order',
-    'to_address' => 'your_to_address',
-    'amount' => '1'
+    'address' => '合法的 tron 地址',
+    'amount' => '1',
+    'order' => '可选'
 ];
-$result = $api->withdraw($data);
+$result = $api->trxWithdraw($data);
 ```
 
 ## 请求与返回参数:
@@ -170,22 +186,71 @@ $result = $api->withdraw($data);
 
  参数名  | 必选项  | 解释
  ---- | ----- | ------  
- order | Y | 订单号
- to_address  | Y | 要提现的地址
- amount  | Y | 要提现的金额
+ address | Y | 提现地址
+ amount | Y | 提现金额
+ order | N | 订单号
+ id  | Y | 商户ID(sdk内部处理)
+ sign  | Y | 数据签名(sdk内部处理)
 
 #### 返回参数:
 
  参数名  | 必选项  | 解释
  ---- | ----- | ------  
  status  | Y | [on status](https://github.com/GOD-z3/tron-pay-usdt#%E8%BF%94%E5%9B%9E%E7%8A%B6%E6%80%81) 
- api_order  | Y | 接口返回的订单号(用户其他功能，建议记录) 
- order  | Y | 传入的订单  
- tx_id  | Y | 交易TXID  
- amount  | Y | 转账金额  
- owner  | Y | 转账地址  
- to  | Y | 收款地址  
- withdraw | Y | 提现是否成功(true or false)
- coin_type  | Y | 币种
- commission_amount  | N | 手续费(没有这个字段则表示0)
+ id  | Y | 商户ID 
+ code  | Y | 请求状态码  
+ data[]  | Y | 返回数据的数组
+ data['api_order']  | Y | 接口返回的订单号(用户其他功能，建议记录) 
+ data['order']  | Y | 用户传入的订单号
+ data['address']  | Y | 提现地址  
+ data['amount']  | Y | 提现金额  
+ data['current_trx']  | Y | TRX 剩余余额  
+ data['coin_type']  | Y | 币种(TRX)  
+ data['fee']  | Y | 手续费  
+ sign  | Y | 数据签名
+
+
+
+ # usdWithdraw:
+
+ ## 示例:
+```
+// usdt 提现
+$api = new Troner('商户ID','商户TOKEN');
+// **案例** $api = new Troner('20000','token');
+$data = [
+    'telegramID' => 'telegramID',
+    'amount' => '1',
+    'order' => '可选'
+];
+$result = $api->usdWithdraw($data);
+```
+
+## 请求与返回参数:
+
+#### 请求参数:
+
+ 参数名  | 必选项  | 解释
+ ---- | ----- | ------  
+ telegramID | Y | 用户的 telegramID，如果用户不存在返回 code:10002
+ amount | Y | 提现金额
+ order | N | 订单号
+ id  | Y | 商户ID(sdk内部处理)
+ sign  | Y | 数据签名(sdk内部处理)
+
+#### 返回参数:
+
+ 参数名  | 必选项  | 解释
+ ---- | ----- | ------  
+ status  | Y | [on status](https://github.com/GOD-z3/tron-pay-usdt#%E8%BF%94%E5%9B%9E%E7%8A%B6%E6%80%81) 
+ id  | Y | 商户ID 
+ code  | Y | 请求状态码  
+ data[]  | Y | 返回数据的数组
+ data['api_order']  | Y | 接口返回的订单号(用户其他功能，建议记录) 
+ data['order']  | Y | 用户传入的订单号
+ data['telegramID']  | Y | 用户传入的telegramID  
+ data['amount']  | Y | 提现金额  
+ data['current_usd']  | Y | USD 剩余余额  
+ data['coin_type']  | Y | 币种(USD)  
+ data['fee']  | Y | 手续费  
  sign  | Y | 数据签名
