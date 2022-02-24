@@ -89,7 +89,7 @@ $result = $api->newAddress($data);
  ---- | ----- | ------  
  status  | Y | [on status](https://github.com/GOD-z3/tron-pay-usdt#%E8%BF%94%E5%9B%9E%E7%8A%B6%E6%80%81) 
  id  | Y | 商户ID 
- code  | Y | 请求状态码  
+ code  | Y | 请求状态码  [on code](https://github.com/GOD-z3/tron-pay-usdt#%E7%8A%B6%E6%80%81%E7%A0%81%E8%AF%B4%E6%98%8E)
  data[]  | Y | 返回数据的数组
  data['api_order']  | Y | 接口返回的订单号(用户其他功能，建议记录) 
  data['order']  | Y | 用户传入的订单号
@@ -153,7 +153,7 @@ $result = $api->usdtWithdraw($data);
  ---- | ----- | ------  
  status  | Y | [on status](https://github.com/GOD-z3/tron-pay-usdt#%E8%BF%94%E5%9B%9E%E7%8A%B6%E6%80%81) 
  id  | Y | 商户ID 
- code  | Y | 请求状态码  
+ code  | Y | 请求状态码  [on code](https://github.com/GOD-z3/tron-pay-usdt#%E7%8A%B6%E6%80%81%E7%A0%81%E8%AF%B4%E6%98%8E)
  data[]  | Y | 返回数据的数组
  data['api_order']  | Y | 接口返回的订单号(用户其他功能，建议记录) 
  data['order']  | Y | 用户传入的订单号
@@ -198,7 +198,7 @@ $result = $api->trxWithdraw($data);
  ---- | ----- | ------  
  status  | Y | [on status](https://github.com/GOD-z3/tron-pay-usdt#%E8%BF%94%E5%9B%9E%E7%8A%B6%E6%80%81) 
  id  | Y | 商户ID 
- code  | Y | 请求状态码  
+ code  | Y | 请求状态码  [on code](https://github.com/GOD-z3/tron-pay-usdt#%E7%8A%B6%E6%80%81%E7%A0%81%E8%AF%B4%E6%98%8E)
  data[]  | Y | 返回数据的数组
  data['api_order']  | Y | 接口返回的订单号(用户其他功能，建议记录) 
  data['order']  | Y | 用户传入的订单号
@@ -244,7 +244,7 @@ $result = $api->usdWithdraw($data);
  ---- | ----- | ------  
  status  | Y | [on status](https://github.com/GOD-z3/tron-pay-usdt#%E8%BF%94%E5%9B%9E%E7%8A%B6%E6%80%81) 
  id  | Y | 商户ID 
- code  | Y | 请求状态码  
+ code  | Y | 请求状态码  [on code](https://github.com/GOD-z3/tron-pay-usdt#%E7%8A%B6%E6%80%81%E7%A0%81%E8%AF%B4%E6%98%8E)
  data[]  | Y | 返回数据的数组
  data['api_order']  | Y | 接口返回的订单号(用户其他功能，建议记录) 
  data['order']  | Y | 用户传入的订单号

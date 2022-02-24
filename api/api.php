@@ -129,13 +129,17 @@ class Troner
 
     /*
      *  异步接受通知：
-     *      api_order : api接口生成的订单
-     *      order : 订单
-     *      base58 : 充值接收地址
-     *      amount : 金额
-     *      coin_type : 币种
-     *      recharge : 充值状态 true:充值成功 false:充值失败
+     *      id : 商户id
      *      sign : 签名
+     *      data : {
+     *              api_order : api接口生成的订单
+     *              order : 传入的订单
+     *              address : 充值接收地址
+     *              amount : 充值金额
+     *              txid : 交易id，可以用于判断是否已处理
+     *              datas : 具体交易信息
+     *              coin_type : 币种
+     *         }
      * 
      *  按json格式返回：
      *      [
