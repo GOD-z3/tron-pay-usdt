@@ -79,7 +79,7 @@ $result = $api->newAddress($data);
 
  参数名  | 必选项  | 解释
  ---- | ----- | ------  
- order  | N | 订单号(最好唯一) 
+ order  | Y | 订单号,order相同地址不变(唯一) 
  id  | Y | 商户ID(sdk内部处理)
  sign  | Y | 数据签名(sdk内部处理)
 

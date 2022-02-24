@@ -11,7 +11,7 @@ class Troner
         $this->id = $id;
         $this->token = $token;
 
-        $api_url = 'https://tronbot.network/shop/';
+        $api_url = 'xxxx/';
         $this->api_url_gerAddress    = $api_url . 'newAddress';
         $this->api_url_usdtWithdraw    = $api_url . 'withdraw/usdt';
         $this->api_url_trxWithdraw    = $api_url . 'withdraw/trx';
