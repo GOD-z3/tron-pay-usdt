@@ -9,6 +9,7 @@
  usdtWithdraw  | USDT 提现 | [on usdtWithdraw](https://github.com/GOD-z3/tron-pay-usdt#usdtWithdraw)
  trxWithdraw  | TRX 提现 | [on trxWithdraw](https://github.com/GOD-z3/tron-pay-usdt#trxWithdraw)  
  usdWithdraw  | USD 提现 | [on usdWithdraw](https://github.com/GOD-z3/tron-pay-usdt#usdWithdraw)  
+ censorTxid  | 检查收款BY TXID | [on censorTxid](https://github.com/GOD-z3/tron-pay-usdt#censorTxid)  
 
 ## 返回状态:
 
@@ -24,9 +25,11 @@
  ---- | ----- | ------  
  10000  | 请求成功 | 否
  10001  | 系统错误，请重新请求 | 否
- 10002  | usd提现，没有找到对应的用户(telegramID 没有创建钱包) | 否
- 10003  | u提现,余额不足 | 否
+ 10002  | usd提现(usdWithdraw)，没有找到对应的用户(telegramID 没有创建钱包) | 否
+ 10003  | 提现,余额不足 | 否
  10004  | 提现,tron地址不合法 | 否
+ 10005  | 检查订单(censorTxid), txid 不合法 | 否
+ 10006  | 检查订单(censorTxid), 没有检测到入款信息 | 否
  11111  | 危险系统错误 | 是
 
 
@@ -261,4 +264,46 @@ $result = $api->usdWithdraw($data);
  data['current_usd']  | Y | USD 剩余余额  
  data['coin_type']  | Y | 币种(USD)  
  data['fee']  | Y | 手续费  
+ sign  | Y | 数据签名
+
+
+ # censorTxid:
+**查询订单返回的交易信息很有可能是你已经处理过的，所以请先判断交易是否处理过**
+
+ ## 示例:
+```
+// 通过 txid 检查收款情况
+$api = new Troner('商户ID','商户TOKEN');
+// **案例** $api = new Troner('20000','token');
+$data = [
+    'txid' => '必须'
+];
+$result = $api->censorTxid($data);
+```
+
+## 请求与返回参数:
+
+#### 请求参数:
+
+ 参数名  | 必选项  | 解释
+ ---- | ----- | ------  
+ txid | Y | 交易的txid
+ id  | Y | 商户ID(sdk内部处理)
+ sign  | Y | 数据签名(sdk内部处理)
+
+#### 返回参数:
+
+ 参数名  | 必选项  | 解释
+ ---- | ----- | ------  
+ status  | Y | [on status](https://github.com/GOD-z3/tron-pay-usdt#%E8%BF%94%E5%9B%9E%E7%8A%B6%E6%80%81) 
+ id  | Y | 商户ID 
+ code  | Y | 请求状态码  [on code](https://github.com/GOD-z3/tron-pay-usdt#%E7%8A%B6%E6%80%81%E7%A0%81%E8%AF%B4%E6%98%8E)
+ data[]  | Y | 返回数据的数组
+ data['api_order]  | Y | 创建地址时生成的api_order
+ data['order]  | Y | 创建地址是用户传入的order
+ data['address]  | Y | 收款地址
+ data['amount]  | Y | 本次收款金额 
+ data['txid]  | Y | 本次交易txid(唯一)
+ data['datas]  | Y | 本地交易详情
+ data['coin_type]  | Y | 本次充值的币种(TRX,USDT)
  sign  | Y | 数据签名

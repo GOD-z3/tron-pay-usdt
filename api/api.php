@@ -16,6 +16,7 @@ class Troner
         $this->api_url_usdtWithdraw    = $api_url . 'withdraw/usdt';
         $this->api_url_trxWithdraw    = $api_url . 'withdraw/trx';
         $this->api_url_usdWithdraw    = $api_url . 'withdraw/usd';
+        $this->api_url_censorTxid    = $api_url . 'censorTxid';
     }
 
     /**
@@ -124,6 +125,32 @@ class Troner
     public function usdWithdraw(array $data)
     {
         $this->url = $this->api_url_usdWithdraw;
+        return $this->post($data);
+    }
+
+    /**
+     * 检查订单 BY TXID
+     * 请求参数：
+     *      id : 商户id
+     *      txid : 合法的 txid, txid 不合法返回 10005
+     *      sign : 签名
+     * 返回：
+     *      status : success 请求成功; error 请求异常; warning 请求参数不对
+     *      id : 商户id
+     *      sign : 签名
+     *      code : 请求状态码
+     *      data : {
+     *              api_order : api接口生成的订单
+     *              order : 传入的订单
+     *              address : 充值接收地址
+     *              amount : 充值金额
+     *              txid : 交易id，可以用于判断是否已处理
+     *              datas : 具体交易信息
+     *              coin_type : 币种
+     *          }
+     */
+    public function censorTxid(array $data){
+        $this->url = $this->api_url_censorTxid;
         return $this->post($data);
     }
 
