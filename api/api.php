@@ -154,6 +154,27 @@ class Troner
         return $this->post($data);
     }
 
+    /**
+     * 检查地址是否合法
+     * 请求参数：
+     *      id : 商户id
+     *      address : 合法的 tron 地址
+     *      sign : 签名
+     * 返回：
+     *      status : success 请求成功; error 请求异常; warning 请求参数不对
+     *      id : 商户id
+     *      sign : 签名
+     *      code : 请求状态码
+     *      data : {
+     *              address : 传入的地址
+     *              isAddress : 是否合法
+     *          }
+     */
+    public function isAddress(array $data){
+        $this->url = $this->api_url_isAddress;
+        return $this->post($data);
+    }
+
     /*
      *  异步接受通知：
      *      id : 商户id

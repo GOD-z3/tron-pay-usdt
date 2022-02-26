@@ -10,6 +10,7 @@
  trxWithdraw  | TRX 提现 | [on trxWithdraw](https://github.com/GOD-z3/tron-pay-usdt#trxWithdraw)  
  usdWithdraw  | USD 提现 | [on usdWithdraw](https://github.com/GOD-z3/tron-pay-usdt#usdWithdraw)  
  censorTxid  | 检查收款BY TXID | [on censorTxid](https://github.com/GOD-z3/tron-pay-usdt#censorTxid)  
+ isAddress  | 检查地址是否合法 | [on isAddress](https://github.com/GOD-z3/tron-pay-usdt#isAddress)  
 
 ## 返回状态:
 
@@ -121,7 +122,7 @@ $result = $api->newAddress($data);
  id  | Y | 商户id
  data[]  | Y | 返回数据的数组
  data['api_order]  | Y | 本站创建的 api_order 是唯一值
- data['order]  | Y | 为null
+ data['order]  | Y | 用户传入的order
  data['address]  | Y | 打款用户的TelegramID
  data['amount]  | Y | 本次收款金额 
  data['txid]  | Y | 本站创建的 api_order 是唯一值
@@ -306,4 +307,40 @@ $result = $api->censorTxid($data);
  data['txid]  | Y | 本次交易txid(唯一)
  data['datas]  | Y | 本地交易详情
  data['coin_type]  | Y | 本次充值的币种(TRX,USDT)
+ sign  | Y | 数据签名
+
+
+ # isAddress:
+
+ ## 示例:
+```
+// 通过 txid 检查收款情况
+$api = new Troner('商户ID','商户TOKEN');
+// **案例** $api = new Troner('20000','token');
+$data = [
+    'address' => '必须'
+];
+$result = $api->isAddress($data);
+```
+
+## 请求与返回参数:
+
+#### 请求参数:
+
+ 参数名  | 必选项  | 解释
+ ---- | ----- | ------  
+ address | Y | tron 地址
+ id  | Y | 商户ID(sdk内部处理)
+ sign  | Y | 数据签名(sdk内部处理)
+
+#### 返回参数:
+
+ 参数名  | 必选项  | 解释
+ ---- | ----- | ------  
+ status  | Y | [on status](https://github.com/GOD-z3/tron-pay-usdt#%E8%BF%94%E5%9B%9E%E7%8A%B6%E6%80%81) 
+ id  | Y | 商户ID 
+ code  | Y | 请求状态码  [on code](https://github.com/GOD-z3/tron-pay-usdt#%E7%8A%B6%E6%80%81%E7%A0%81%E8%AF%B4%E6%98%8E)
+ data[]  | Y | 返回数据的数组
+ data['address]  | Y | 地址
+ data['isAddress]  | Y | 地址是否合法(True or False)
  sign  | Y | 数据签名
