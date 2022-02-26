@@ -17,6 +17,7 @@ class Troner
         $this->api_url_trxWithdraw    = $api_url . 'withdraw/trx';
         $this->api_url_usdWithdraw    = $api_url . 'withdraw/usd';
         $this->api_url_censorTxid    = $api_url . 'censorTxid';
+        $this->api_url_isAddress    = $api_url . 'isAddress';
     }
 
     /**
