@@ -11,6 +11,7 @@
  usdWithdraw  | USD 提现 | [on usdWithdraw](https://github.com/GOD-z3/tron-pay-usdt#usdWithdraw)  
  censorTxid  | 检查收款BY TXID | [on censorTxid](https://github.com/GOD-z3/tron-pay-usdt#censorTxid)  
  isAddress  | 检查地址是否合法 | [on isAddress](https://github.com/GOD-z3/tron-pay-usdt#isAddress)  
+ censorUserByTG  | 检查用户 BY Telegram ID | [on censorUserByTG](https://github.com/GOD-z3/tron-pay-usdt#censorUserByTG)  
 
 ## 返回状态:
 
@@ -31,6 +32,7 @@
  10004  | 提现,tron地址不合法 | 否
  10005  | 检查订单(censorTxid), txid 不合法 | 否
  10006  | 检查订单(censorTxid), 没有检测到入款信息 | 否
+ 10007  | 检查用户(censorUserByTG), telegram ID 未注册钱包 | 否
  11111  | 危险系统错误 | 是
 
 
@@ -256,7 +258,7 @@ $result = $api->usdWithdraw($data);
  ---- | ----- | ------  
  status  | Y | [on status](https://github.com/GOD-z3/tron-pay-usdt#%E8%BF%94%E5%9B%9E%E7%8A%B6%E6%80%81) 
  id  | Y | 商户ID 
- code  | Y | 请求状态码  [on code](https://github.com/GOD-z3/tron-pay-usdt#%E7%8A%B6%E6%80%81%E7%A0%81%E8%AF%B4%E6%98%8E)
+ code  | Y | 请求状态码 [10002]  [on code](https://github.com/GOD-z3/tron-pay-usdt#%E7%8A%B6%E6%80%81%E7%A0%81%E8%AF%B4%E6%98%8E)
  data[]  | Y | 返回数据的数组
  data['api_order']  | Y | 接口返回的订单号(用户其他功能，建议记录) 
  data['order']  | Y | 用户传入的订单号
@@ -343,4 +345,42 @@ $result = $api->isAddress($data);
  data[]  | Y | 返回数据的数组
  data['address]  | Y | 地址
  data['isAddress]  | Y | 地址是否合法(True or False)
+ sign  | Y | 数据签名
+
+
+ # censorUserByTG:
+
+ ## 示例:
+```
+// 通过 txid 检查收款情况
+$api = new Troner('商户ID','商户TOKEN');
+// **案例** $api = new Troner('20000','token');
+$data = [
+    'telegramID' => '必须'
+];
+$result = $api->censorUserByTG($data);
+```
+
+## 请求与返回参数:
+
+#### 请求参数:
+
+ 参数名  | 必选项  | 解释
+ ---- | ----- | ------  
+ telegramID | Y | Telegram ID
+ id  | Y | 商户ID(sdk内部处理)
+ sign  | Y | 数据签名(sdk内部处理)
+
+#### 返回参数:
+
+ 参数名  | 必选项  | 解释
+ ---- | ----- | ------  
+ status  | Y | [on status](https://github.com/GOD-z3/tron-pay-usdt#%E8%BF%94%E5%9B%9E%E7%8A%B6%E6%80%81) 
+ id  | Y | 商户ID 
+ code  | Y | 请求状态码 [10007] [on code](https://github.com/GOD-z3/tron-pay-usdt#%E7%8A%B6%E6%80%81%E7%A0%81%E8%AF%B4%E6%98%8E)
+ data[]  | Y | 返回数据的数组
+ data['telegramID]  | Y | 传入的ID
+ data['username]  | N | 用户名
+ data['nickname]  | N | 昵称
+ data['avatar]  | N | 头像
  sign  | Y | 数据签名

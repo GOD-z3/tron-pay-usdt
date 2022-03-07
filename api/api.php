@@ -18,6 +18,7 @@ class Troner
         $this->api_url_usdWithdraw    = $api_url . 'withdraw/usd';
         $this->api_url_censorTxid    = $api_url . 'censorTxid';
         $this->api_url_isAddress    = $api_url . 'isAddress';
+        $this->api_url_censorUserByTG    = $api_url . 'censorUserByTG';
     }
 
     /**
@@ -173,6 +174,29 @@ class Troner
      */
     public function isAddress(array $data){
         $this->url = $this->api_url_isAddress;
+        return $this->post($data);
+    }
+
+    /**
+     * 检查用户是否存在 通过 Telegram ID
+     * 请求参数：
+     *      id : 商户id
+     *      telegramID : telegramID
+     *      sign : 签名
+     * 返回：
+     *      status : success 请求成功; error 请求异常; warning 请求参数不对
+     *      id : 商户id
+     *      sign : 签名
+     *      code : 请求状态码  用户存在:10000; 不存在:10007;
+     *      data : {
+     *              telegramID : 传入的ID
+     *              username : 用户名
+     *              nickname : 昵称
+     *              avatar : 头像
+     *          }
+     */
+    public function censorUserByTG(array $data){
+        $this->url = $this->api_url_censorUserByTG;
         return $this->post($data);
     }
 
