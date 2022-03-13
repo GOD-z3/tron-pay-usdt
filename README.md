@@ -50,18 +50,16 @@ $data = [
 // 调用接口
 $result = $api->newAddress($data);
 
+// 检查是否返回成功，如果没有返回成功则做出相应处理
+if(!isset($result['status']) && $result['status'] != 'success'){
+    echo '接口请求出错或接口出错';
+}
+
 // 验证签名 
 if($api->checkSign($result)){
     // 成功的逻辑代码
 }else{
     // 失败的逻辑代码
-}
-
-// 检查是否返回成功，如果没有返回成功则做出相应处理
-if($result['status'] == 'success' && isset($result['code']) && $result['code'] == 10000){
-    echo '接口请求出错或接口出错';
-}else{
-    echo '检查错误';
 }
 ```
 
