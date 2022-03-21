@@ -19,6 +19,7 @@ class Troner
         $this->api_url_censorTxid    = $api_url . 'censorTxid';
         $this->api_url_isAddress    = $api_url . 'isAddress';
         $this->api_url_censorUserByTG    = $api_url . 'censorUserByTG';
+        $this->api_url_payLink    = $api_url . 'payLink';
     }
 
     /**
@@ -40,6 +41,29 @@ class Troner
     public function newAddress(array $data)
     {
         $this->url = $this->api_url_gerAddress;
+        return $this->post($data);
+    }
+
+    /**
+     * 生成钱包充值链接
+     * 请求参数：
+     *      id : 商户id
+     *      order : 订单号(用户传入，callback会返回)
+     *      amount : 充值金额
+     *      message : 提示消息
+     *      sign : 签名
+     * 返回：
+     *      status : success 请求成功; error 请求异常; warning 请求参数不对
+     *      id : 商户id
+     *      sign : 签名
+     *      code : 请求状态码
+     *      data : {
+     *              pay_url : api接口生成的订单
+     *          }
+     */
+    public function payLink(array $data)
+    {
+        $this->url = $this->api_url_payLink;
         return $this->post($data);
     }
 
@@ -222,10 +246,15 @@ class Troner
     public function notify()
     {
         $data = $_POST;
-        if ($this->checkSign($data) === true) {
-            return $data;
-        } else {
-            return '验签失败';
+        if($this->checkSign($data)){
+            echo '验证成功';
+            if($data['status'] == 'success' && isset($data['code']) && $data['code'] == 10000){{
+                // 数据正常
+            }
+                // 数据不正常
+            }
+        }else{
+            echo '验证失败';
         }
     }
 

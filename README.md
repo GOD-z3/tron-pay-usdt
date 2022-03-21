@@ -12,6 +12,7 @@
  censorTxid  | 检查收款BY TXID | [on censorTxid](https://github.com/GOD-z3/tron-pay-usdt#censorTxid)  
  isAddress  | 检查地址是否合法 | [on isAddress](https://github.com/GOD-z3/tron-pay-usdt#isAddress)  
  censorUserByTG  | 检查用户 BY Telegram ID | [on censorUserByTG](https://github.com/GOD-z3/tron-pay-usdt#censorUserByTG)  
+ payLink  | 获取钱包充值链接 | [on payLink](https://github.com/GOD-z3/tron-pay-usdt#payLink)  
 
 ## 返回状态:
 
@@ -117,7 +118,7 @@ $result = $api->newAddress($data);
  data['coin_type]  | Y | 本次充值的币种(TRX,USDT)
  sign  | Y | 数据签名
 
-## USD 到账回调:
+## USD 到账回调 (已废弃):
 **USD 回调跟 TRX USDT 不同,需要单独处理,api_order是唯一值可以用于判断是否已处理**
  参数名  | 必选项  | 解释
  ---- | ----- | ------  
@@ -383,4 +384,61 @@ $result = $api->censorUserByTG($data);
  data['username]  | N | 用户名
  data['nickname]  | N | 昵称
  data['avatar]  | N | 头像
+ sign  | Y | 数据签名
+
+
+
+ # payLink:
+
+## 示例:
+```
+// 获取地址
+$api = new Troner('商户ID','商户TOKEN');
+// **案例** $api = new Troner('20000','token');
+
+$data = [
+    'order' => '123',
+    'amount' => '0.1',
+    'message' => '发大财',
+];
+
+$result = $api->payLink($data);
+```
+
+## 请求与返回参数:
+
+#### 请求参数:
+
+ 参数名  | 必选项  | 解释
+ ---- | ----- | ------  
+ amount  | Y | 充值金额
+ order  | N | 订单号 (充值成功后回调)
+ message  | N | 消息
+ id  | Y | 商户ID(sdk内部处理)
+ sign  | Y | 数据签名(sdk内部处理)
+
+#### 返回参数:
+
+ 参数名  | 必选项  | 解释
+ ---- | ----- | ------  
+ status  | Y | [on status](https://github.com/GOD-z3/tron-pay-usdt#%E8%BF%94%E5%9B%9E%E7%8A%B6%E6%80%81) 
+ id  | Y | 商户ID 
+ code  | Y | 请求状态码  [on code](https://github.com/GOD-z3/tron-pay-usdt#%E7%8A%B6%E6%80%81%E7%A0%81%E8%AF%B4%E6%98%8E)
+ data[]  | Y | 返回数据的数组
+ data['pay_url']  | Y | 充值链接(https://t.me/TronlinkWalletBot?start=xxxx)
+ data['api_order']  | Y | 接口生成的订单号
+ sign  | Y | 数据签名
+
+## 到账回调:
+
+ 参数名  | 必选项  | 解释
+ ---- | ----- | ------  
+ id  | Y | 商户id
+ data[]  | Y | 返回数据的数组
+ data['api_order]  | Y | 创建充值链接时生成的订单号
+ data['order]  | Y | 传入的order
+ data['tg_id]  | Y | 充值用户的 Telegram ID
+ data['amount]  | Y | 本次收款金额 
+ data['message]  | Y | 传入的 message
+ data['coin_type]  | Y | USD
  sign  | Y | 数据签名
