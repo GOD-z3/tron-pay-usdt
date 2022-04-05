@@ -172,6 +172,7 @@ $result = $api->usdtWithdraw($data);
  data[]  | Y | 返回数据的数组
  data['api_order']  | Y | 接口返回的订单号(用户其他功能，建议记录) 
  data['order']  | Y | 用户传入的订单号
+ data['txid']  | Y | 区块订单唯一表示
  data['address']  | Y | 提现地址  
  data['amount']  | Y | 提现金额  
  data['current_usdt']  | Y | USDT 剩余余额  
@@ -217,6 +218,7 @@ $result = $api->trxWithdraw($data);
  data[]  | Y | 返回数据的数组
  data['api_order']  | Y | 接口返回的订单号(用户其他功能，建议记录) 
  data['order']  | Y | 用户传入的订单号
+ data['txid']  | Y | 区块订单唯一表示
  data['address']  | Y | 提现地址  
  data['amount']  | Y | 提现金额  
  data['current_trx']  | Y | TRX 剩余余额  
