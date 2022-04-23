@@ -131,6 +131,7 @@ class Troner
      *      id : 商户id
      *      telegramID : 要给哪个用户提现 如果用户不存在返回 10002
      *      amount : 金额
+     *      message : 可选参数
      *      order : 可选参数
      *      sign : 签名
      * 返回：

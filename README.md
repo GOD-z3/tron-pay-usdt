@@ -185,7 +185,7 @@ $result = $api->usdtWithdraw($data);
 
  ## 示例:
 ```
-// usdt 提现
+// trx 提现
 $api = new Troner('商户ID','商户TOKEN');
 // **案例** $api = new Troner('20000','token');
 $data = [
@@ -232,7 +232,7 @@ $result = $api->trxWithdraw($data);
 
  ## 示例:
 ```
-// usdt 提现
+// usd 提现
 $api = new Troner('商户ID','商户TOKEN');
 // **案例** $api = new Troner('20000','token');
 $data = [
@@ -252,6 +252,7 @@ $result = $api->usdWithdraw($data);
  telegramID | Y | 用户的 telegramID，如果用户不存在返回 code:10002
  amount | Y | 提现金额
  order | N | 订单号
+ message | N | 订单备注消息
  id  | Y | 商户ID(sdk内部处理)
  sign  | Y | 数据签名(sdk内部处理)
 
