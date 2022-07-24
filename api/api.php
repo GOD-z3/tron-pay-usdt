@@ -20,6 +20,7 @@ class Troner
         $this->api_url_isAddress    = $api_url . 'isAddress';
         $this->api_url_censorUserByTG    = $api_url . 'censorUserByTG';
         $this->api_url_payLink    = $api_url . 'payLink';
+        $this->api_url_getBalanceByAddress    = $api_url . 'getBalanceByAddress';
     }
 
     /**
@@ -199,6 +200,28 @@ class Troner
      */
     public function isAddress(array $data){
         $this->url = $this->api_url_isAddress;
+        return $this->post($data);
+    }
+
+    /**
+     * 查询地址 TRX 和 USDT 余额
+     * 请求参数：
+     *      id : 商户id
+     *      address : 合法的 tron 地址
+     *      sign : 签名
+     * 返回：
+     *      status : success 请求成功; error 请求异常; warning 请求参数不对
+     *      id : 商户id
+     *      sign : 签名
+     *      code : 请求状态码
+     *      data : {
+     *              address : 传入的地址
+     *              trx : trx 余额
+     *              usdt : usdt 余额
+     *          }
+     */
+    public function getBalanceByAddress(array $data){
+        $this->url = $this->api_url_getBalanceByAddress;
         return $this->post($data);
     }
 

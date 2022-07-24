@@ -13,6 +13,7 @@
  isAddress  | 检查地址是否合法 | [on isAddress](https://github.com/GOD-z3/tron-pay-usdt#isAddress)  
  censorUserByTG  | 检查用户 BY Telegram ID | [on censorUserByTG](https://github.com/GOD-z3/tron-pay-usdt#censorUserByTG)  
  payLink  | 获取钱包充值链接 | [on payLink](https://github.com/GOD-z3/tron-pay-usdt#payLink)  
+ getBalanceByAddress  | 获取地址上线余额(TRX & USDT) | [on payLink](https://github.com/GOD-z3/tron-pay-usdt#getBalanceByAddress)  
 
 ## 返回状态:
 
@@ -350,6 +351,43 @@ $result = $api->isAddress($data);
  data['address]  | Y | 地址
  data['isAddress]  | Y | 地址是否合法(True or False)
  sign  | Y | 数据签名
+
+ # getBalanceByAddress:
+
+ ## 示例:
+```
+// 查看 address 线上余额 (TRX & USDT)
+$api = new Troner('商户ID','商户TOKEN');
+// **案例** $api = new Troner('20000','token');
+$data = [
+    'address' => '必须'
+];
+$result = $api->getBalanceByAddress($data);
+```
+
+## 请求与返回参数:
+
+#### 请求参数:
+
+ 参数名  | 必选项  | 解释
+ ---- | ----- | ------  
+ address | Y | tron 地址
+ id  | Y | 商户ID(sdk内部处理)
+ sign  | Y | 数据签名(sdk内部处理)
+
+#### 返回参数:
+
+ 参数名  | 必选项  | 解释
+ ---- | ----- | ------  
+ status  | Y | [on status](https://github.com/GOD-z3/tron-pay-usdt#%E8%BF%94%E5%9B%9E%E7%8A%B6%E6%80%81) 
+ id  | Y | 商户ID 
+ code  | Y | 请求状态码  [on code](https://github.com/GOD-z3/tron-pay-usdt#%E7%8A%B6%E6%80%81%E7%A0%81%E8%AF%B4%E6%98%8E)
+ data[]  | Y | 返回数据的数组
+ data['address]  | Y | 地址
+ data['trx]  | Y | trx 余额
+ data['usdt]  | Y | usdt 余额
+ sign  | Y | 数据签名
+
 
 
  # censorUserByTG:
