@@ -13,6 +13,7 @@
  isAddress  | 检查地址是否合法 | [on isAddress](https://github.com/GOD-z3/tron-pay-usdt#isAddress)  
  censorUserByTG  | 检查用户 BY Telegram ID | [on censorUserByTG](https://github.com/GOD-z3/tron-pay-usdt#censorUserByTG)  
  payLink  | 获取钱包充值链接 | [on payLink](https://github.com/GOD-z3/tron-pay-usdt#payLink)  
+ shopInfo  | 获取商铺信息 | [on shopInfo](https://github.com/GOD-z3/tron-pay-usdt#shopInfo)  
  getBalanceByAddress  | 获取地址上线余额(TRX & USDT) | [on payLink](https://github.com/GOD-z3/tron-pay-usdt#getBalanceByAddress)  
 
 ## 返回状态:
@@ -482,4 +483,44 @@ $result = $api->payLink($data);
  data['amount]  | Y | 本次收款金额 
  data['message]  | Y | 传入的 message
  data['coin_type]  | Y | USD
+ sign  | Y | 数据签名
+
+
+ # shopInfo:
+
+## 示例:
+```
+// 获取地址
+$api = new Troner('商户ID','商户TOKEN');
+// **案例** $api = new Troner('20000','token');
+
+$data = [
+    
+];
+
+$result = $api->shopInfo($data);
+```
+
+## 请求与返回参数:
+
+#### 请求参数:
+
+ 参数名  | 必选项  | 解释
+ ---- | ----- | ------  
+ id  | Y | 商户ID(sdk内部处理)
+ sign  | Y | 数据签名(sdk内部处理)
+
+#### 返回参数:
+
+ 参数名  | 必选项  | 解释
+ ---- | ----- | ------  
+ status  | Y | [on status](https://github.com/GOD-z3/tron-pay-usdt#%E8%BF%94%E5%9B%9E%E7%8A%B6%E6%80%81) 
+ id  | Y | 商户ID 
+ code  | Y | 请求状态码  [on code](https://github.com/GOD-z3/tron-pay-usdt#%E7%8A%B6%E6%80%81%E7%A0%81%E8%AF%B4%E6%98%8E)
+ data[]  | Y | 返回数据的数组
+ data['id']  | Y | 商户id
+ data['name']  | Y | 商户名
+ data['usd']  | Y | USD 余额
+ data['usdt']  | Y | USDT 余额
+ data['trx']  | Y | TRX 余额
  sign  | Y | 数据签名

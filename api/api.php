@@ -12,7 +12,7 @@ class Troner
         $this->token = $token;
 
         $api_url = 'xxxx/';
-        $this->api_url_gerAddress    = $api_url . 'newAddress';
+        $this->api_url_getAddress    = $api_url . 'newAddress';
         $this->api_url_usdtWithdraw    = $api_url . 'withdraw/usdt';
         $this->api_url_trxWithdraw    = $api_url . 'withdraw/trx';
         $this->api_url_usdWithdraw    = $api_url . 'withdraw/usd';
@@ -21,6 +21,7 @@ class Troner
         $this->api_url_censorUserByTG    = $api_url . 'censorUserByTG';
         $this->api_url_payLink    = $api_url . 'payLink';
         $this->api_url_getBalanceByAddress    = $api_url . 'getBalanceByAddress';
+        $this->api_url_getshopInfo    = $api_url . 'shopInfo';
     }
 
     /**
@@ -41,7 +42,7 @@ class Troner
      */
     public function newAddress(array $data)
     {
-        $this->url = $this->api_url_gerAddress;
+        $this->url = $this->api_url_getAddress;
         return $this->post($data);
     }
 
@@ -65,6 +66,30 @@ class Troner
     public function payLink(array $data)
     {
         $this->url = $this->api_url_payLink;
+        return $this->post($data);
+    }
+
+    /**
+     * 查看商铺信息
+     * 请求参数：
+     *      id : 商户id
+     *      sign : 签名
+     * 返回：
+     *      status : success 请求成功; error 请求异常; warning 请求参数不对
+     *      id : 商户id
+     *      sign : 签名
+     *      code : 请求状态码
+     *      data : {
+     *              id : 商品id
+     *              name : 商品id
+     *              usd : usd余额
+     *              usdt : usdt余额
+     *              trx : trx余额
+     *          }
+     */
+    public function shopInfo(array $data)
+    {
+        $this->url = $this->api_url_getshopInfo;
         return $this->post($data);
     }
 
