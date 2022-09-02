@@ -456,6 +456,7 @@ $result = $api->payLink($data);
  amount  | Y | 充值金额
  order  | N | 订单号 (充值成功后回调)
  message  | N | 消息
+ back_url  | N | 付款成功后返回按钮链接
  id  | Y | 商户ID(sdk内部处理)
  sign  | Y | 数据签名(sdk内部处理)
 
