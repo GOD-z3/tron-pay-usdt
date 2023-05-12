@@ -114,6 +114,7 @@ $result = $api->newAddress($data);
  参数名  | 必选项  | 解释
  ---- | ----- | ------  
  id  | Y | 商户id
+ type  | Y | 固定为 deposit, 用于区分是提现还是存款
  data[]  | Y | 返回数据的数组
  data['api_order]  | Y | 创建地址时生成的api_order
  data['order]  | Y | 创建地址是用户传入的order
@@ -342,7 +343,7 @@ $result = $api->multsignWithdraw($data);
  data['fee]  | Y | 手续费(status为pass时存在)
  sign  | Y | 数据签名
 
- 
+
  # censorTxid:
 **查询订单返回的交易信息很有可能是你已经处理过的，所以请先判断交易是否处理过**
 
