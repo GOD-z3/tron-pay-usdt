@@ -1,6 +1,8 @@
 # 说明(必看):
 接口申请 URL : [跳转](https://t.me/Tigerbuhu)
 
+## 功能新增:
+
 ## 功能列表:
 
  方法名  | 功能  | 跳转详情
@@ -9,6 +11,7 @@
  usdtWithdraw  | USDT 提现 | [on usdtWithdraw](https://github.com/GOD-z3/tron-pay-usdt#usdtWithdraw)
  trxWithdraw  | TRX 提现 | [on trxWithdraw](https://github.com/GOD-z3/tron-pay-usdt#trxWithdraw)  
  usdWithdraw  | USD 提现 | [on usdWithdraw](https://github.com/GOD-z3/tron-pay-usdt#usdWithdraw)  
+ multsignWithdraw  | 多签提现 | [on multsignWithdraw](https://github.com/GOD-z3/tron-pay-usdt#multsignWithdraw)  
  censorTxid  | 检查收款BY TXID | [on censorTxid](https://github.com/GOD-z3/tron-pay-usdt#censorTxid)  
  isAddress  | 检查地址是否合法 | [on isAddress](https://github.com/GOD-z3/tron-pay-usdt#isAddress)  
  censorUserByTG  | 检查用户 BY Telegram ID | [on censorUserByTG](https://github.com/GOD-z3/tron-pay-usdt#censorUserByTG)  
@@ -183,6 +186,23 @@ $result = $api->usdtWithdraw($data);
  data['fee']  | Y | 手续费  
  sign  | Y | 数据签名
 
+## 提现回调:
+
+ 参数名  | 必选项  | 解释
+ ---- | ----- | ------  
+ id  | Y | 商户id
+ type  | Y | 此结果固定为 multsignWithdraw, 用于区分回调的是提现还是存款
+ data[]  | Y | 返回数据的数组
+ data['status]  | Y | pass 或 reject
+ data['api_order]  | Y | api接口生成的订单
+ data['order]  | Y | 传入的订单
+ data['to_address]  | Y | 提现地址
+ data['amount]  | Y | 本次收款金额 
+ data['txid]  | Y | 交易id(status为pass时存在)
+ data['datas]  | Y | 具体交易信息(status为pass时存在)
+ data['coin_type]  | Y | 币种(目前只有USDT)
+ data['fee]  | Y | 手续费(status为pass时存在)
+ sign  | Y | 数据签名
 
  # trxWithdraw:
 
@@ -276,6 +296,50 @@ $result = $api->usdWithdraw($data);
  data['fee']  | Y | 手续费  
  sign  | Y | 数据签名
 
+ # multsignWithdraw:
+**多签提现需要二次审核，提现结果会通过回调接口通知商户**
+
+ ## 示例:
+```
+// usdt 提现
+$api = new Troner('商户ID','商户TOKEN');
+// **案例** $api = new Troner('20000','token');
+$data = [
+    'address' => '合法的 tron 地址',
+    'amount' => '1',
+    'order' => '可选',
+    'coin_type' => 'USDT',
+];
+$result = $api->multsignWithdraw($data);
+```
+
+## 请求与返回参数:
+
+#### 请求参数:
+
+ 参数名  | 必选项  | 解释
+ ---- | ----- | ------  
+ address | Y | 提现地址
+ amount | Y | 提现金额
+ order | N | 订单号
+ id  | Y | 商户ID(sdk内部处理)
+ sign  | Y | 数据签名(sdk内部处理)
+
+#### 返回参数:
+
+ 参数名  | 必选项  | 解释
+ ---- | ----- | ------  
+ status  | Y | [on status](https://github.com/GOD-z3/tron-pay-usdt#%E8%BF%94%E5%9B%9E%E7%8A%B6%E6%80%81) 
+ id  | Y | 商户ID 
+ code  | Y | 请求状态码 [10004,10003]  [on code](https://github.com/GOD-z3/tron-pay-usdt#%E7%8A%B6%E6%80%81%E7%A0%81%E8%AF%B4%E6%98%8E)
+ data[]  | Y | 返回数据的数组
+ data['api_order']  | Y | 接口返回的订单号(用户其他功能，建议记录) 
+ data['order']  | Y | 用户传入的订单号
+ data['address']  | Y | 提现地址  
+ data['amount']  | Y | 提现金额  
+ data['coin_type']  | Y | 币种(USDT)  
+ data['fee']  | Y | 手续费  
+ sign  | Y | 数据签名
 
  # censorTxid:
 **查询订单返回的交易信息很有可能是你已经处理过的，所以请先判断交易是否处理过**

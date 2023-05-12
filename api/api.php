@@ -11,8 +11,8 @@ class Troner
         $this->id = $id;
         $this->token = $token;
 
-        $api_url = 'xxxx/';
-        $this->api_url_getAddress    = $api_url . 'newAddress';
+        $api_url = 'https://xxx.com/';
+        $this->api_url_gerAddress    = $api_url . 'newAddress';
         $this->api_url_usdtWithdraw    = $api_url . 'withdraw/usdt';
         $this->api_url_trxWithdraw    = $api_url . 'withdraw/trx';
         $this->api_url_usdWithdraw    = $api_url . 'withdraw/usd';
@@ -20,8 +20,48 @@ class Troner
         $this->api_url_isAddress    = $api_url . 'isAddress';
         $this->api_url_censorUserByTG    = $api_url . 'censorUserByTG';
         $this->api_url_payLink    = $api_url . 'payLink';
-        $this->api_url_getBalanceByAddress    = $api_url . 'getBalanceByAddress';
-        $this->api_url_getshopInfo    = $api_url . 'shopInfo';
+        $this->api_url_shopInfo    = $api_url . 'shopInfo';
+        $this->api_url_shopTransaction    = $api_url . 'info/transaction';
+        $this->api_url_shopWithdraw    = $api_url . 'info/withdraw';
+        $this->api_url_shopDeposit    = $api_url . 'info/deposit';
+        $this->api_url_shopDuoWithdraw    = $api_url . 'info/duoWithdraw';
+        $this->api_url_shopFee    = $api_url . 'info/fee';
+        $this->api_url_multsignWithdraw    = $api_url . 'withdraw/multsign';
+    }
+
+    // 获取手续费
+    public function shopDuoWithdraw(array $data)
+    {
+        $this->url = $this->api_url_shopDuoWithdraw;
+        return $this->post($data);
+    }
+
+    // 获取手续费
+    public function shopFee(array $data)
+    {
+        $this->url = $this->api_url_shopFee;
+        return $this->post($data);
+    }
+
+    // 获取帐变
+    public function shopTransaction(array $data)
+    {
+        $this->url = $this->api_url_shopTransaction;
+        return $this->post($data);
+    }
+
+    // 获取存款
+    public function shopDeposit(array $data)
+    {
+        $this->url = $this->api_url_shopDeposit;
+        return $this->post($data);
+    }
+
+    // 获取取款
+    public function shopWithdraw(array $data)
+    {
+        $this->url = $this->api_url_shopWithdraw;
+        return $this->post($data);
     }
 
     /**
@@ -42,9 +82,16 @@ class Troner
      */
     public function newAddress(array $data)
     {
-        $this->url = $this->api_url_getAddress;
+        $this->url = $this->api_url_gerAddress;
         return $this->post($data);
     }
+
+    public function shopInfo(array $data)
+    {
+        $this->url = $this->api_url_shopInfo;
+        return $this->post($data);
+    }
+
 
     /**
      * 生成钱包充值链接
@@ -69,29 +116,6 @@ class Troner
         return $this->post($data);
     }
 
-    /**
-     * 查看商铺信息
-     * 请求参数：
-     *      id : 商户id
-     *      sign : 签名
-     * 返回：
-     *      status : success 请求成功; error 请求异常; warning 请求参数不对
-     *      id : 商户id
-     *      sign : 签名
-     *      code : 请求状态码
-     *      data : {
-     *              id : 商品id
-     *              name : 商品id
-     *              usd : usd余额
-     *              usdt : usdt余额
-     *              trx : trx余额
-     *          }
-     */
-    public function shopInfo(array $data)
-    {
-        $this->url = $this->api_url_getshopInfo;
-        return $this->post($data);
-    }
 
     /**
      * usdt 提现
@@ -119,6 +143,38 @@ class Troner
     public function usdtWithdraw(array $data)
     {
         $this->url = $this->api_url_usdtWithdraw;
+        return $this->post($data);
+    }
+
+    /**
+     * 多签 提现
+     * 请求参数：
+     *      id : 商户id
+     *      address : 合法的 tron 地址, 地址不合法返回 10004
+     *      amount : 金额
+     *      coin_type : 货币 USDT
+     *      order : 可选参数
+     *      sign : 签名
+     * 返回：
+     *      status : success 请求成功; error 请求异常; warning 请求参数不对
+     *      id : 商户id
+     *      sign : 签名
+     *      code : 请求状态码
+     *      data : {
+     *              status : pass(通过) reject(被拒绝)
+     *              api_order : 接口生产的 order
+     *              to_address : 提现地址
+     *              amount : 提现金额
+     *              order : 用户传入的 order
+     *              txid : 订单号(pass时存在)
+     *              datas : 交易详情(pass时存在)
+     *              coin_type : 币种
+     *              fee : 手续费(pass时存在)
+     *          }
+     */
+    public function multsignWithdraw(array $data)
+    {
+        $this->url = $this->api_url_multsignWithdraw;
         return $this->post($data);
     }
 
@@ -157,7 +213,6 @@ class Troner
      *      id : 商户id
      *      telegramID : 要给哪个用户提现 如果用户不存在返回 10002
      *      amount : 金额
-     *      message : 可选参数
      *      order : 可选参数
      *      sign : 签名
      * 返回：
@@ -229,28 +284,6 @@ class Troner
     }
 
     /**
-     * 查询地址 TRX 和 USDT 余额
-     * 请求参数：
-     *      id : 商户id
-     *      address : 合法的 tron 地址
-     *      sign : 签名
-     * 返回：
-     *      status : success 请求成功; error 请求异常; warning 请求参数不对
-     *      id : 商户id
-     *      sign : 签名
-     *      code : 请求状态码
-     *      data : {
-     *              address : 传入的地址
-     *              trx : trx 余额
-     *              usdt : usdt 余额
-     *          }
-     */
-    public function getBalanceByAddress(array $data){
-        $this->url = $this->api_url_getBalanceByAddress;
-        return $this->post($data);
-    }
-
-    /**
      * 检查用户是否存在 通过 Telegram ID
      * 请求参数：
      *      id : 商户id
@@ -272,7 +305,7 @@ class Troner
         $this->url = $this->api_url_censorUserByTG;
         return $this->post($data);
     }
-
+    
     /*
      *  异步接受通知：
      *      id : 商户id
@@ -295,15 +328,10 @@ class Troner
     public function notify()
     {
         $data = $_POST;
-        if($this->checkSign($data)){
-            echo '验证成功';
-            if($data['status'] == 'success' && isset($data['code']) && $data['code'] == 10000){{
-                // 数据正常
-            }
-                // 数据不正常
-            }
-        }else{
-            echo '验证失败';
+        if ($this->checkSign($data) === true) {
+            return $data;
+        } else {
+            return '验签失败';
         }
     }
 
@@ -347,6 +375,6 @@ class Troner
 
         $data = curl_exec($ch);
         curl_close($ch);
-        return json_decode($data, true);
+        return json_decode($data);
     }
 }
