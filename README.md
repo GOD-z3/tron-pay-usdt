@@ -3,6 +3,9 @@
 
 ## 功能新增:
 
+[多签提现](https://github.com/GOD-z3/tron-pay-usdt#multsignWithdraw)  
+[存款回调增加参数](https://github.com/GOD-z3/tron-pay-usdt#newAddres)  
+
 ## 功能列表:
 
  方法名  | 功能  | 跳转详情
