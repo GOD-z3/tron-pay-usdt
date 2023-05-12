@@ -186,23 +186,6 @@ $result = $api->usdtWithdraw($data);
  data['fee']  | Y | 手续费  
  sign  | Y | 数据签名
 
-## 提现回调:
-
- 参数名  | 必选项  | 解释
- ---- | ----- | ------  
- id  | Y | 商户id
- type  | Y | 此结果固定为 multsignWithdraw, 用于区分回调的是提现还是存款
- data[]  | Y | 返回数据的数组
- data['status]  | Y | pass 或 reject
- data['api_order]  | Y | api接口生成的订单
- data['order]  | Y | 传入的订单
- data['to_address]  | Y | 提现地址
- data['amount]  | Y | 本次收款金额 
- data['txid]  | Y | 交易id(status为pass时存在)
- data['datas]  | Y | 具体交易信息(status为pass时存在)
- data['coin_type]  | Y | 币种(目前只有USDT)
- data['fee]  | Y | 手续费(status为pass时存在)
- sign  | Y | 数据签名
 
  # trxWithdraw:
 
@@ -341,6 +324,25 @@ $result = $api->multsignWithdraw($data);
  data['fee']  | Y | 手续费  
  sign  | Y | 数据签名
 
+## 提现回调:
+
+ 参数名  | 必选项  | 解释
+ ---- | ----- | ------  
+ id  | Y | 商户id
+ type  | Y | 此结果固定为 multsignWithdraw, 用于区分回调的是提现还是存款
+ data[]  | Y | 返回数据的数组
+ data['status]  | Y | pass 或 reject
+ data['api_order]  | Y | api接口生成的订单
+ data['order]  | Y | 传入的订单
+ data['to_address]  | Y | 提现地址
+ data['amount]  | Y | 本次收款金额 
+ data['txid]  | Y | 交易id(status为pass时存在)
+ data['datas]  | Y | 具体交易信息(status为pass时存在)
+ data['coin_type]  | Y | 币种(目前只有USDT)
+ data['fee]  | Y | 手续费(status为pass时存在)
+ sign  | Y | 数据签名
+
+ 
  # censorTxid:
 **查询订单返回的交易信息很有可能是你已经处理过的，所以请先判断交易是否处理过**
 
