@@ -10,7 +10,7 @@
 
  方法名  | 功能  | 跳转详情
  ---- | ----- | ------  
- newAddres  | 获取充值地址 | [on newAddres](https://github.com/GOD-z3/tron-pay-usdt#newaddres)
+ newAddress  | 获取充值地址 | [on newAddress](https://github.com/GOD-z3/tron-pay-usdt#newaddress)
  usdtWithdraw  | USDT 提现 | [on usdtWithdraw](https://github.com/GOD-z3/tron-pay-usdt#usdtWithdraw)
  trxWithdraw  | TRX 提现 | [on trxWithdraw](https://github.com/GOD-z3/tron-pay-usdt#trxWithdraw)  
  usdWithdraw  | USD 提现 | [on usdWithdraw](https://github.com/GOD-z3/tron-pay-usdt#usdWithdraw)  
@@ -74,7 +74,7 @@ if($api->checkSign($result)){
 ```
 
 
-# newAddres:
+# newAddress:
 
 ## 示例:
 ```
