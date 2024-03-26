@@ -411,7 +411,7 @@ $result = $api->checkWithdraw($data);
 
  参数名  | 必选项  | 解释
  ---- | ----- | ------  
- txid | Y | 交易的txid
+ id | Y | 商户id
  order  | Y | 订单号
  sign  | Y | 数据签名(sdk内部处理)
 
@@ -453,7 +453,7 @@ $result = $api->checkMultsign($data);
 
  参数名  | 必选项  | 解释
  ---- | ----- | ------  
- txid | Y | 交易的txid
+ id | Y | 商户id
  order  | Y | 订单号
  sign  | Y | 数据签名(sdk内部处理)
 
