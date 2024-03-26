@@ -27,8 +27,24 @@ class Troner
         $this->api_url_shopDuoWithdraw    = $api_url . 'info/duoWithdraw';
         $this->api_url_shopFee    = $api_url . 'info/fee';
         $this->api_url_multsignWithdraw    = $api_url . 'withdraw/multsign';
+        $this->api_url_checkMultsign    = $api_url . 'withdraw/checkMultsign';
+        $this->api_url_checkWithdraw    = $api_url . 'withdraw/checkWithdraw';
     }
 
+    // 检查多签提现订单
+    public function checkMultsign(array $data)
+    {
+        $this->url = $this->api_url_checkMultsign;
+        return $this->post($data);
+    }
+
+    // 检查提现订单
+    public function checkWithdraw(array $data)
+    {
+        $this->url = $this->api_url_checkWithdraw;
+        return $this->post($data);
+    }
+    
     // 获取手续费
     public function shopDuoWithdraw(array $data)
     {
