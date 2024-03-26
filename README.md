@@ -3,6 +3,8 @@
 
 ## 功能新增:
 
+[检查提现](https://github.com/GOD-z3/tron-pay-usdt#checkMultsign)  
+[检查多签提现](https://github.com/GOD-z3/tron-pay-usdt#checkWithdraw)  
 [多签提现](https://github.com/GOD-z3/tron-pay-usdt#multsignWithdraw)  
 [存款回调增加参数](https://github.com/GOD-z3/tron-pay-usdt#trx-usdt-到账回调)  
 
@@ -388,6 +390,91 @@ $result = $api->censorTxid($data);
  data['coin_type]  | Y | 本次充值的币种(TRX,USDT)
  sign  | Y | 数据签名
 
+
+ # checkWithdraw:
+**检查提现**
+
+ ## 示例:
+```
+// 通过 txid 检查收款情况
+$api = new Troner('商户ID','商户TOKEN');
+// **案例** $api = new Troner('20000','token');
+$data = [
+    'order' => '必须'
+];
+$result = $api->checkWithdraw($data);
+```
+
+## 请求与返回参数:
+
+#### 请求参数:
+
+ 参数名  | 必选项  | 解释
+ ---- | ----- | ------  
+ txid | Y | 交易的txid
+ order  | Y | 订单号
+ sign  | Y | 数据签名(sdk内部处理)
+
+#### 返回参数:
+
+ 参数名  | 必选项  | 解释
+ ---- | ----- | ------  
+ status  | Y | [on status](https://github.com/GOD-z3/tron-pay-usdt#%E8%BF%94%E5%9B%9E%E7%8A%B6%E6%80%81) 
+ id  | Y | 商户ID 
+ code  | Y | 请求状态码
+ data[]  | Y | 返回数据的数组
+ data['api_order]  | Y | 创建地址时生成的api_order
+ data['order]  | Y | 创建地址是用户传入的order
+ data['to_address]  | Y | 收款地址
+ data['amount]  | Y | 本次收款金额 
+ data['txid]  | Y | 本次交易txid(唯一)
+ data['fee]  | Y | 手续费
+ data['message]  | Y | 备注
+ sign  | Y | 数据签名
+
+
+  # checkMultsign:
+**检查多签提现订单**
+
+ ## 示例:
+```
+// 通过 txid 检查收款情况
+$api = new Troner('商户ID','商户TOKEN');
+// **案例** $api = new Troner('20000','token');
+$data = [
+    'order' => '必须'
+];
+$result = $api->checkMultsign($data);
+```
+
+## 请求与返回参数:
+
+#### 请求参数:
+
+ 参数名  | 必选项  | 解释
+ ---- | ----- | ------  
+ txid | Y | 交易的txid
+ order  | Y | 订单号
+ sign  | Y | 数据签名(sdk内部处理)
+
+#### 返回参数:
+
+ 参数名  | 必选项  | 解释
+ ---- | ----- | ------  
+ status  | Y | [on status](https://github.com/GOD-z3/tron-pay-usdt#%E8%BF%94%E5%9B%9E%E7%8A%B6%E6%80%81) 
+ id  | Y | 商户ID 
+ code  | Y | 请求状态码
+ data[]  | Y | 返回数据的数组
+ data['api_order]  | Y | 创建地址时生成的api_order
+ data['order]  | Y | 创建地址是用户传入的order
+ data['to_address]  | Y | 收款地址
+ data['amount]  | Y | 本次收款金额 
+ data['txid]  | Y | 本次交易txid(唯一)
+ data['fee]  | Y | 手续费
+ data['message]  | Y | 备注
+ data['coin_type]  | Y | 币种
+ data['status]  | Y | 0为等待二次确认，1为已处理，2为已拒绝
+ sign  | Y | 数据签名
 
  # isAddress:
 
