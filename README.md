@@ -3,8 +3,8 @@
 
 ## 功能新增:
 
-[检查提现](https://github.com/GOD-z3/tron-pay-usdt#checkMultsign)  
-[检查多签提现](https://github.com/GOD-z3/tron-pay-usdt#checkWithdraw)  
+[检查提现](https://github.com/GOD-z3/tron-pay-usdt#checkWithdraw)  
+[检查多签提现](https://github.com/GOD-z3/tron-pay-usdt#checkMultsign)  
 [多签提现](https://github.com/GOD-z3/tron-pay-usdt#multsignWithdraw)  
 [存款回调增加参数](https://github.com/GOD-z3/tron-pay-usdt#trx-usdt-到账回调)  
 
